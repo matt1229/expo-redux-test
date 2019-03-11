@@ -1,5 +1,6 @@
 import messages from "@common/messages/MessagesReducers";
 import user from "@components/login/LoginReducers";
+import hero from "@components/dashboard/DashboardReducers";
 
 const rehydrated = (state = false, action) => {
   switch (action.type) {
@@ -13,5 +14,6 @@ const rehydrated = (state = false, action) => {
 export default {
   rehydrated,
   messages,
-  user
+  user,
+  hero
 };

@@ -7,8 +7,9 @@ import {
   Text,
   Header,
   Left,
-  Button,
-  Icon,
+  Card,
+  CardItem,
+  Thumbnail,
   Body,
   Title,
   Right
@@ -20,47 +21,75 @@ import Loading from "@components/loading/Loading";
 
 // Actions
 import { Logout } from "@components/login/LoginActions";
+import GetHeroes from "@components/dashboard/DashboardActions";
 
 // Styles
 import Styles from "@components/dashboard/DashboardStyles";
 
 class Dashboard extends Component {
   static propTypes = {
-    Logout: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool
+    GetHeroes: PropTypes.func.isRequired,
+    // data: PropTypes.arrayOf(PropTypes.object)
   };
 
   static defaultProps = {
-    isLoading: true
+    // data: []
   };
 
   render = () => {
-    const { isLoading, Logout: DashboardLogout } = this.props;
+    const { data, GetHeroes: getAll } = this.props;
+    getAll();
 
-    if (isLoading) {
-      return <Loading />;
-    }
+    if (!data)
+     return <Loading />;
 
     return (
       <Container>
         <Header style={{ borderBottomWidth: 0 }}>
           <Left>
-            <Button transparent onPress={DashboardLogout}>
-              <Icon name="exit" />
-            </Button>
+            <Text>All</Text>
           </Left>
           <Body>
             <Title>React Native Starter</Title>
           </Body>
           <Right />
         </Header>
-        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-          <View style={Styles.section_content}>
-            <Text>
-              This is the place where I will render all my secret data...
-              shhhhh!
-            </Text>
-          </View>
+        <Content>
+            {
+              data &&
+              data.map((d) => 
+                <Content>
+                  {
+                    d['figpins'].map(f => 
+                      <Card>
+                        <CardItem>
+                        <Left>
+                          <Body>
+                            <Text>{d.name}</Text>
+                            <Text>{d.vault_id}</Text>
+                          </Body>
+                        </Left>
+                      </CardItem>
+                        <CardItem cardBody>
+                        <Thumbnail source={{ uri: f.img_url_sm }} />
+                        </CardItem>
+                        <CardItem>
+                          <Left>
+                            <Text>{f.name}</Text>
+                          </Left>
+                          <Body>
+                            <Text>{f.artist_name}</Text>
+                          </Body>
+                          <Right>
+                            <Text>{f.lifecycle_stage}</Text>
+                          </Right>
+                        </CardItem>
+                      </Card>
+                    )
+                  }
+                </Content>
+              )
+            }
         </Content>
       </Container>
     );
@@ -69,11 +98,13 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.user.isAuthenticated,
-  isLoading: state.messages.loading
+  isLoading: state.hero.loading,
+  data: state.hero.data
 });
 
 const mapDispatchToProps = {
-  Logout
+  Logout,
+  GetHeroes
 };
 
 export default connect(
