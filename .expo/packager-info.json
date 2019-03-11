@@ -1,0 +1,10 @@
+{
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 2543,
+  "expoServerNgrokUrl": "https://uk-m3b.anonymous.expo-redux-test.exp.direct",
+  "packagerNgrokUrl": "https://packager.uk-m3b.anonymous.expo-redux-test.exp.direct",
+  "ngrokPid": 2556,
+  "devToolsPort": 19002,
+  "webpackServerPort": null
+}
