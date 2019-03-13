@@ -36,9 +36,13 @@ class Dashboard extends Component {
     // data: []
   };
 
-  render = () => {
-    const { data, GetHeroes: getAll } = this.props;
+  componentDidMount() {
+    const { GetHeroes: getAll } = this.props;
     getAll();
+  }
+
+  render = () => {
+    const { data } = this.props;
 
     if (!data)
      return <Loading />;
